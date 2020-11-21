@@ -1,10 +1,12 @@
 import React from "react";
 import Loading from "../components/Loading";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
 const url = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=";
 
 const SingleCocktail = () => {
   const { id } = useParams();
+  const history = useHistory();
+
   const [loading, setLoading] = React.useState(false);
   const [cocktail, setCocktail] = React.useState(null);
 
@@ -13,9 +15,10 @@ const SingleCocktail = () => {
     async function getCocktail() {
       try {
         const response = await fetch(`${url}${id}`);
-        const data = await response.json();
+        const { drinks } = await response.json();
+        console.log(drinks);
 
-        if (data.drinks) {
+        if (drinks) {
           const {
             strDrink: name,
             strDrinkThumb: image,
@@ -28,7 +31,7 @@ const SingleCocktail = () => {
             strIngredient3,
             strIngredient4,
             strIngredient5,
-          } = data.drinks[0];
+          } = drinks[0];
           const ingredients = [
             strIngredient1,
             strIngredient2,
@@ -51,11 +54,16 @@ const SingleCocktail = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
         setLoading(false);
       }
     }
     getCocktail();
   }, [id]);
+
+  const handleBack = () => {
+    history.goBack();
+  };
 
   if (loading) {
     return <Loading />;
@@ -76,6 +84,9 @@ const SingleCocktail = () => {
   } = cocktail;
   return (
     <section className="section cocktail-section">
+      <button onClick={handleBack} className="btn btn-primary">
+        Go Back
+      </button>
       <Link to="/" className="btn btn-primary">
         back home
       </Link>
