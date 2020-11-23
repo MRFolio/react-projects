@@ -16,7 +16,6 @@ const SingleCocktail = () => {
       try {
         const response = await fetch(`${url}${id}`);
         const { drinks } = await response.json();
-        console.log(drinks);
 
         if (drinks) {
           const {
@@ -112,7 +111,7 @@ const SingleCocktail = () => {
           <p>
             <span className="drink-data">ingredients:</span>
             {ingredients.map((item, index) => {
-              return item ? <span key={index}>{item}</span> : null;
+              return <span key={index}>{item}</span>;
             })}
           </p>
         </div>
