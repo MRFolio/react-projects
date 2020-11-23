@@ -15,11 +15,19 @@ function App() {
       </div>
     );
   }
+
   return (
-    <main>
-      <Navbar />
-      <CartContainer />
-    </main>
+    <>
+      {loading && (
+        <div className="loading">
+          <h1>Loading...</h1>
+        </div>
+      )}
+      <main>
+        <Navbar />
+        <CartContainer />
+      </main>
+    </>
   );
 }
 
